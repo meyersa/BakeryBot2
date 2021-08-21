@@ -1,7 +1,16 @@
 const fs = require('fs');
 const { Client, Intents } = require("discord.js");
-// Const that will probably be needed in commands/handlers
-// Collection, MessageEmbed, MessageActionRow, Interaction, Permissions, RoleManager, DiscordAPIError, MessageButton, ButtonInteraction, TextChannel
+
+/*
+*	Bot created by: Meyers#6464
+*	Version: 2.0.2
+* 	
+*	Imports FS, djs, token, and the config
+*	From there it creates the discord client instance
+*	Gathers all loaded event listeners
+*	Starts listeners and runs single instance events
+*	Logs in
+*/
 
 const token = require('./config/token.json');
 const config = require('./config/config.json');
@@ -16,7 +25,7 @@ for (const file of eventFiles) {
 		client.once(event.name, (...args) => event.execute(...args, client, config));
 	} else {
 		client.on(event.name, (...args) => event.execute(...args, client, config));
-	}
-}
+	};
+};
 
 client.login(token.token);

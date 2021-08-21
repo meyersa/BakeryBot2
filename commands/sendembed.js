@@ -16,5 +16,5 @@ module.exports = {
             args[2], // Image of embed
             args[3], // Footer of embed
         );
-    }
-}
+    },
+};
