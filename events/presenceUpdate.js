@@ -6,18 +6,39 @@ module.exports = {
     summary: "Tracks user status changes.",
     async execute(presenceOld, presenceNew, client) {
 
+        /*
+        *   Kinda fucked to make sure it collects the streaming change.
+        *   Starts by making sure the new presence exists as well as the the presence being from the right guild.
+        * 
+        *   If an old presence exists, it checks if you were streaming before. If you were, it returns and quits to prevent false notifs
+        *   Now it checks to make sure one of the new presences includes the streaming type and you weren't streaming before
+        *   
+        *   From there it creates and sends the embed.
+        * 
+        *   This event should probably be redone to support other events. Perhaps checking through all the activity events for streaming,
+        *   then runs the function.
+        * 
+        */
+
         if (!presenceNew) return;
+        if (!(presenceNew.guild.id == config.guildID)) return;
+
+        var streamingOrNot = false;
+
+        if (presenceOld) {
+            for (const activity of presenceOld.activities) {
+                if (activity.type == "STREAMING") {
+                    streamingOrNot = true;
+                }
+            }
+        }
 
         for (const activity of presenceNew.activities) {
-            if (activity.type == "STREAMING") {
-
-                /*
-                *   Streaming post. Sends embed in Welcome channel (Could easily add another JSON entry for this)
-                */
+            if (activity.type == "STREAMING" && streamingOrNot == false) {
 
                 const embed = new MessageEmbed()
                     .setColor(config.embedColor)
-                    .setTitle(`${presenceOld.user.username} is now live on ${activity.name}!`)
+                    .setTitle(`${presenceNew.user.username} is now live on ${activity.name}!`)
                     .setURL(activity.url)
                     .setDescription(`Title: ${activity.details}\nGame: ${activity.state}`)
                     .setThumbnail(presenceNew.user.avatarURL())
@@ -26,8 +47,8 @@ module.exports = {
                 await client.channels.cache.get(config.welcomeChannel).send({
                     content: `${presenceNew.user}`,
                     embeds: [embed]
-                }).catch((e) => console.error("Failed to send the welcome embed:", e));
-            
+                })
+
                 console.log(`Sent a live notification in ${config.welcomeChannel} for ${presenceNew.user.username} (${presenceNew.user.id})`);
             };
         };

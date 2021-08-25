@@ -4,5 +4,7 @@
     "allowedRoles" : ["347854817651195906"],
     "roleCreateCategory" : "testing-category",
     "welcomeChannel" : "875179138938441748",
-    "embedColor" : "#fde0fd"
+    "embedColor" : "#fde0fd",
+    "guildID" : "347850261332623362",
+    "showWelcome" : "true"
 }
