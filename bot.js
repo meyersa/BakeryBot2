@@ -4,7 +4,7 @@ const { Client, Intents } = require("discord.js");
 /*
 *	Bot created by: Meyers#6464
 *	Version: 2.0.3
-* 	
+* 	 
 *	Imports FS, djs, token, and the config
 *	From there it creates the discord client instance
 *	Gathers all loaded event listeners
