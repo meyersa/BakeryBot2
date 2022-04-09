@@ -1,7 +1,7 @@
 module.exports = {
     name: "messageCreate",
     summary: "MessageCreate event, command handler",
-    async execute(message, client, config) {
+    async execute(message, client) {
         
         /*
         *   Before executing anything, checks to make sure the user isn't a bot and the prefix is the same as the one in the config
@@ -12,10 +12,11 @@ module.exports = {
         *   Make sure you use them in order in the execute function or it won't work
         */
 
-        if (message.author.bot || !message.content.startsWith(config.prefix)) return;
+        if (message.author.bot || !message.content.startsWith(process.env.prefix)) return;
 
-        var args = message.content.slice(config.prefix.length).trim().match(/\w+|"[^"]+"/g);
+        var args = message.content.slice(process.env.prefix.length).trim().match(/\w+|"[^"]+"/g);
         i = args.length;
+
         while (i--) { args[i] = args[i].replace(/"/g, "") };
         const commandArgs = args.shift().toLowerCase();
 
@@ -29,7 +30,8 @@ module.exports = {
                 console.log(`${message.author.username} (${message.author.id}) called command "${commandArgs}" in channel ${message.channel.id} of ${message.guild.id}`);
                 // Log interaction for debug
 
-                command.execute(args, message, client, config);
+                command.execute(args, message, client);
+                
             };
         };
     },

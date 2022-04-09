@@ -1,11 +1,10 @@
-const config = require("../config/config.json");
 const { MessageEmbed } = require("discord.js");
 
 module.exports = {
     name: "sendEmbed",
     execute(message, embedTitle, embedMainBody, embedImage, embedFooter) {
         const embed = new MessageEmbed()
-            .setColor(config.embedColor)
+            .setColor(process.env.embedColor)
             .setTimestamp()
             .setTitle(embedTitle)
             .setDescription(embedMainBody)
@@ -13,5 +12,6 @@ module.exports = {
             .setImage(embedImage);
 
         message.channel.send({ embeds: [embed] }).catch((e) => console.error("Failed to send embed.", e));
+        
     },
 };

@@ -1,4 +1,3 @@
-const config = require("../config/config.json");
 const { MessageEmbed } = require("discord.js")
 
 module.exports = {
@@ -21,13 +20,14 @@ module.exports = {
             )
             .setThumbnail(member.user.avatarURL())
             .setTimestamp()
-            .setColor(config.embedColor);
+            .setColor(process.env.embedColor);
 
-        await client.channels.cache.get(config.welcomeChannel).send({
+        await client.channels.cache.get(process.env.welcomeChannel).send({
             content: `Welcome! ${member.user}`,
             embeds: [memberAddEmbed]
         }).catch((e) => console.error("Failed to send the welcome embed:", e));
 
         console.log(`Welcomed ${member.user.username} (${member.user.id}) to ${member.guild.id}`)
+        
     },
 };

@@ -1,5 +1,4 @@
 const { MessageEmbed } = require("discord.js");
-const config = require("../config/config.json");
 
 module.exports = {
     name: "presenceUpdate",
@@ -21,7 +20,7 @@ module.exports = {
         */
 
         if (!presenceNew) return;
-        if (!(presenceNew.guild.id == config.guildID)) return;
+        if (!(presenceNew.guild.id == process.env.guildID)) return;
 
         var streamingOrNot = false;
 
@@ -29,27 +28,28 @@ module.exports = {
             for (const activity of presenceOld.activities) {
                 if (activity.type == "STREAMING") {
                     streamingOrNot = true;
+
                 }
             }
         }
 
         for (const activity of presenceNew.activities) {
             if (activity.type == "STREAMING" && streamingOrNot == false) {
-
                 const embed = new MessageEmbed()
-                    .setColor(config.embedColor)
+                    .setColor(process.env.embedColor)
                     .setTitle(`${presenceNew.user.username} is now live on ${activity.name}!`)
                     .setURL(activity.url)
                     .setDescription(`Title: ${activity.details}\nGame: ${activity.state}`)
                     .setThumbnail(presenceNew.user.avatarURL())
                     .setTimestamp();
 
-                await client.channels.cache.get(config.welcomeChannel).send({
+                await client.channels.cache.get(process.env.welcomeChannel).send({
                     content: `${presenceNew.user}`,
                     embeds: [embed]
-                })
 
-                console.log(`Sent a live notification in ${config.welcomeChannel} for ${presenceNew.user.username} (${presenceNew.user.id})`);
+                })
+                console.log(`Sent a live notification in ${process.env.welcomeChannel} for ${presenceNew.user.username} (${presenceNew.user.id})`);
+            
             };
         };
     },

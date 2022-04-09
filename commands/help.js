@@ -4,5 +4,6 @@ module.exports = {
     execute(args, message) {
         message.reply("There's not much I can help you with :(")
         .catch((e) => console.error("Failed to send help reply.", e));
+        
     },
 };

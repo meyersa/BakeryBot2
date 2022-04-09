@@ -3,7 +3,7 @@ const { Permissions, MessageEmbed, Message } = require("discord.js");
 module.exports = {
     name: "interactionCreate",
     summary: "Recieving button presses.",
-    async execute(interaction, client, config) {
+    async execute(interaction, client) {
 
         /* 
         *   Before starting the interaction create, some variables are checked
@@ -25,8 +25,8 @@ module.exports = {
         const existingChannel = await interaction.guild.channels.cache.find(c => c.name == `${interaction.user.username}-${interaction.user.discriminator}`.toLowerCase())
 
         for (let i = 0; i < memberRoles.length; i++) {
-            for (let n = 0; n < config.allowedRoles.length; n++) {
-                if (memberRoles[i] == config.allowedRoles[n]) {
+            for (let n = 0; n < process.env.allowedRoles.length; n++) {
+                if (memberRoles[i] == process.env.allowedRoles[n]) {
                     memberRoles.splice(i, 1);
                     i = i - 1;
                 }
@@ -45,7 +45,7 @@ module.exports = {
                     .setTitle("Error! You already have a custom role")
                     .setDescription("In order to create a new role you must click the delete button to clear your existing custom roles")
                     .setFooter(`Sent from ${interaction.guild.name}.`, interaction.guild.iconURL())
-                    .setColor(config.embedColor)
+                    .setColor(process.env.embedColor)
 
                 await interaction.member
                     .send({ embeds: [embed] })
@@ -66,7 +66,7 @@ module.exports = {
                     .setTitle("Error! You already have an open channel")
                     .setDescription("Please utilize it or wait for it to close before opening a new channel.\nIf you believe this is an error please contact an admin.")
                     .setFooter(`Sent from ${interaction.guild.name}.`, interaction.guild.iconURL())
-                    .setColor(config.embedColor)
+                    .setColor(process.env.embedColor)
 
                 await interaction.member
                     .send({ embeds: [embed] })
@@ -106,7 +106,7 @@ module.exports = {
                 }).catch((error) => console.error("Failed to create channel", error.message));
 
                 const channelCategory = await interaction.guild.channels.cache.find(
-                    (c) => c.name == config.roleCreateCategory);
+                    (c) => c.name == process.env.roleCreateCategory);
 
                 await channel.setParent(channelCategory.id, { lockPermissions: false }).catch((error) => console.error("Failed to set channel category", error));
 
@@ -125,7 +125,7 @@ module.exports = {
 
                 const firstMessagEmbed = new MessageEmbed()
                     .setTitle("Please enter the name you want your role to be called")
-                    .setColor(config.embedColor);
+                    .setColor(process.env.embedColor);
 
                 await channel.send({ embeds: [firstMessagEmbed] }).catch((error) => console.error("Failed to send message", error));
 
@@ -158,7 +158,7 @@ module.exports = {
 
                 const secondMessageEmbed = new MessageEmbed()
                     .setTitle("Please enter the color you want your role to be. This can either be a hex or color name.")
-                    .setColor(config.embedColor);
+                    .setColor(process.env.embedColor);
 
                 await channel.send({ embeds: [secondMessageEmbed] }).catch((error) => console.error("Failed to send message", error));
 
@@ -191,7 +191,7 @@ module.exports = {
                 const thirdBadColor = new MessageEmbed()
                     .setTitle("Error. That color doesn't work")
                     .setDescription("The color you entered is either too dark or was unable to be picked up by Discord as a color.\nPlease enter a new color below.")
-                    .setColor(config.embedColor);
+                    .setColor(process.env.embedColor);
 
                 var createRole = await channel.guild.roles.create({
                     name: desiredRoleName,
@@ -253,7 +253,7 @@ module.exports = {
                 const completedEmbed = new MessageEmbed()
                     .setTitle("Role creation successful!")
                     .setDescription("This channel will be deleted shortly.")
-                    .setColor(config.embedColor);
+                    .setColor(process.env.embedColor);
 
                 await channel.send({ embeds: [completedEmbed] });
 
@@ -298,7 +298,7 @@ module.exports = {
                     .setTitle("You have no role to be deleted silly!!")
                     .setDescription("Don't be shy, make a role now...")
                     .setFooter(`Sent from ${interaction.guild.name}.`, interaction.guild.iconURL())
-                    .setColor(config.embedColor);
+                    .setColor(process.env.embedColor);
 
                 await interaction.user.send({ embeds: [embed] }).catch((error) => console.error("Failed to DM the user.", error));
                 return;

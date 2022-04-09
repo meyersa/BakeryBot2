@@ -2,7 +2,16 @@
 
 # Bakey Bot on steroids. This time with an event and commnd handler. 
 
-- Basic setup happens in config.json, all other functions are not guild dependant. 
+# Setup With ENVs
+- TOKEN
+- PREFIX 
+- adminRoleID
+- allowedRoles
+- roleCreateCategory
+- welcomeChannel
+- embedColor
+- guildID
+- showWelcome
 
 ## Future ideas
 
