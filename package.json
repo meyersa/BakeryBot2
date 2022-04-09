@@ -3,7 +3,6 @@
   "version": "2.1.0",
   "description": "Cooking bot",
   "main": "bot.js",
-  "type": "module",
   "scripts": {
     "start": "node index.js"
   },
