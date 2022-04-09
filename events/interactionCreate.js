@@ -24,6 +24,8 @@ module.exports = {
         const memberRoles = interaction.member._roles;
         const existingChannel = await interaction.guild.channels.cache.find(c => c.name == `${interaction.user.username}-${interaction.user.discriminator}`.toLowerCase())
 
+        allowedRoles = process.env.allowedRoles.split(" ");
+        
         for (let i = 0; i < memberRoles.length; i++) {
             for (let n = 0; n < process.env.allowedRoles.length; n++) {
                 if (memberRoles[i] == process.env.allowedRoles[n]) {
